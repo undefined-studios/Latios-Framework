@@ -11,8 +11,10 @@ using UnityEngine.Scripting;
 //Todo: Stream types, single schedulers, scratchlists, and inflations
 namespace Latios.Psyshock
 {
+    [BurstCompile]
     public partial struct FindObjectsConfig<T> where T : struct, IFindObjectsProcessor
     {
+        [BurstCompile]
         internal static class FindObjectsInternal
         {
             #region Jobs
@@ -23,6 +25,7 @@ namespace Latios.Psyshock
                 public T                         processor;
                 public Aabb                      aabb;
 
+                [BurstCompile]
                 public void Execute()
                 {
                     LayerQuerySweepMethods.AabbSweep(in aabb, in layer, ref processor);
@@ -46,8 +49,10 @@ namespace Latios.Psyshock
         }
     }
 
+    [BurstCompile]
     public partial struct FindObjectsWorldConfig<T> where T : struct, IFindObjectsProcessor
     {
+        [BurstCompile]
         internal static class FindObjectsInternal
         {
             #region Jobs
@@ -59,6 +64,7 @@ namespace Latios.Psyshock
                 public T                         processor;
                 public Aabb                      aabb;
 
+                [BurstCompile]
                 public void Execute()
                 {
                     var mask = world.CreateMask(queryMask);

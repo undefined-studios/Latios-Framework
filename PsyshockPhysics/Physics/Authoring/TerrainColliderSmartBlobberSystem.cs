@@ -138,6 +138,7 @@ namespace Latios.Psyshock.Authoring.Systems
         [BurstCompile]
         partial struct Job : IJobEntity
         {
+            [BurstCompile]
             public void Execute(ref SmartBlobberResult result,
                                 in TerrainToBake terrain,
                                 in DynamicBuffer<TerrainHeightToBake>             heightsBuffer,

@@ -8,6 +8,7 @@ using Unity.Mathematics;
 
 namespace Latios.Psyshock
 {
+    [BurstCompile]
     public partial struct ForEachPairConfig<T>
     {
         internal enum ScheduleMode
@@ -18,6 +19,7 @@ namespace Latios.Psyshock
             ParallelUnsafe
         }
 
+        [BurstCompile]
         internal static class ForEachPairInternal
         {
             [BurstCompile]
@@ -105,6 +107,7 @@ namespace Latios.Psyshock
                     name = typeof(T).FullName;
                 }
 
+                [BurstCompile]
                 public unsafe void Execute(int jobIndex)
                 {
                     using var jobName = modeAndTMarker.Auto();
@@ -157,6 +160,7 @@ namespace Latios.Psyshock
         }
     }
 
+    [BurstCompile]
     internal static unsafe class ForEachPairMethods
     {
         public static void ExecuteBatch<T>(ref PairStream pairStream, ref T processor, int startIndex, int count, bool isThreadSafe, bool isKeySafe,
@@ -472,6 +476,7 @@ namespace Latios.Psyshock
         {
             public PairStream pairStream;
 
+            [BurstCompile]
             public void Execute()
             {
                 pairStream.CheckWriteAccess();

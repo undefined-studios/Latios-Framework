@@ -153,6 +153,7 @@ namespace Latios.Psyshock.Authoring.Systems
         {
             UnsafeList<ChildProperties> childPropertiesCache;
 
+            [BurstCompile]
             public void Execute(ref SmartBlobberResult result, in DynamicBuffer<CompoundColliderBakingSubCollider> buffer)
             {
                 if (!childPropertiesCache.IsCreated)

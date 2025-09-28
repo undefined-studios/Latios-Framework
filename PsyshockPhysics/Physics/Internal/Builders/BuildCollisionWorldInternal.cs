@@ -7,6 +7,7 @@ using Unity.Mathematics;
 
 namespace Latios.Psyshock
 {
+    [BurstCompile]
     internal static unsafe class BuildCollisionWorldInternal
     {
         public struct ColliderAoSData
@@ -31,6 +32,7 @@ namespace Latios.Psyshock
             public NativeList<ColliderAoSData>                                            colliderAoS;
             [ReadOnly] public NativeArray<BuildCollisionLayerInternal.FilteredChunkCache> filteredChunkCache;
 
+            [BurstCompile]
             public void Execute()
             {
                 if (filteredChunkCache.Length == 0)
@@ -58,6 +60,7 @@ namespace Latios.Psyshock
 
             public BuildCollisionWorldTypeHandles typeGroup;
 
+            [BurstCompile]
             public void Execute(int chunkIndex)
             {
                 var filteredChunk    = filteredChunkCache[chunkIndex];
@@ -123,6 +126,7 @@ namespace Latios.Psyshock
             public NativeList<IntervalTreeNode>                                           archetypeIntervalTreesByBucket;
             public int                                                                    bucketCountWithNaN;
 
+            [BurstCompile]
             public void Execute()
             {
                 int count = 0;
@@ -171,12 +175,14 @@ namespace Latios.Psyshock
 
             public int worldIndexPreshifted;
 
+            [BurstCompile]
             public void Execute()
             {
                 for (int i = 0; i < layer.srcIndices.Length; i++)
                     Execute(i);
             }
 
+            [BurstCompile]
             public void Execute(int i)
             {
                 var aos         = colliderAoS[layer.srcIndices[i]];
@@ -205,6 +211,7 @@ namespace Latios.Psyshock
             [NativeDisableParallelForRestriction] public NativeArray<int>              archetypeBodyIndicesByBucket;
             [NativeDisableParallelForRestriction] public NativeArray<IntervalTreeNode> archetypeIntervalTreesByBucket;
 
+            [BurstCompile]
             public void Execute(int index)
             {
                 var bucketStartAndCount      = layer.bucketStartsAndCounts[index];
@@ -271,6 +278,7 @@ namespace Latios.Psyshock
             [ReadOnly] public NativeArray<BuildCollisionLayerInternal.FilteredChunkCache> filteredChunkCache;
             public BuildCollisionWorldTypeHandles                                         handles;
 
+            [BurstCompile]
             public void Execute()
             {
                 BuildImmediate(ref world, filteredChunkCache, in handles);

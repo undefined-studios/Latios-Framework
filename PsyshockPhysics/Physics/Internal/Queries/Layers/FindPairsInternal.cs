@@ -13,6 +13,7 @@ using UnityEngine.Scripting;
 //Todo: FilteredCache playback and inflations
 namespace Latios.Psyshock
 {
+    [BurstCompile]
     public partial struct FindPairsLayerSelfConfig<T> where T : unmanaged, IFindPairsProcessor
     {
         internal enum ScheduleMode
@@ -25,6 +26,7 @@ namespace Latios.Psyshock
             ParallelUnsafe
         }
 
+        [BurstCompile]
         internal static class FindPairsInternal
         {
             [BurstCompile]
@@ -44,6 +46,7 @@ namespace Latios.Psyshock
                     modeAndTMarker = default;
                 }
 
+                [BurstCompile]
                 public void Run()
                 {
                     SetScheduleMode(ScheduleMode.Single);
@@ -116,6 +119,7 @@ namespace Latios.Psyshock
                 #endregion
 
                 #region Job Processing
+                [BurstCompile]
                 public void Execute(int index)
                 {
                     using var jobName = modeAndTMarker.Auto();
@@ -242,6 +246,7 @@ namespace Latios.Psyshock
                 }
             }
 
+            [BurstCompile]
             public static void RunImmediate(in CollisionLayer layer, ref T processor, bool isThreadSafe)
             {
                 int jobIndex = 0;
@@ -298,6 +303,7 @@ namespace Latios.Psyshock
         }
     }
 
+    [BurstCompile]
     public partial struct FindPairsWorldSelfConfig<T> where T : unmanaged, IFindPairsProcessor
     {
         internal enum ScheduleMode
@@ -308,6 +314,7 @@ namespace Latios.Psyshock
             ParallelUnsafe
         }
 
+        [BurstCompile]
         internal static class FindPairsInternal
         {
             [BurstCompile]
@@ -352,6 +359,7 @@ namespace Latios.Psyshock
 
                 public int cellCount => world.layer.cellCount;
 
+                [BurstCompile]
                 public void RunImmediate()
                 {
                     if (usesBothMasks)
@@ -360,6 +368,7 @@ namespace Latios.Psyshock
                         FindPairsInternal.RunImmediate(in world, world.CreateMask(queryMaskA), ref processor, false);
                 }
 
+                [BurstCompile]
                 public void Run()
                 {
                     SetScheduleMode(ScheduleMode.Single);
@@ -427,6 +436,7 @@ namespace Latios.Psyshock
                 #endregion
 
                 #region Job Processing
+                [BurstCompile]
                 public void Execute(int index)
                 {
                     using var jobName = modeAndTMarker.Auto();
@@ -604,6 +614,7 @@ namespace Latios.Psyshock
                 }
             }
 
+            [BurstCompile]
             public static void RunImmediate(in CollisionWorld world, in CollisionWorld.Mask mask, ref T processor, bool isThreadSafe)
             {
                 int jobIndex = 0;
@@ -660,6 +671,7 @@ namespace Latios.Psyshock
                 }
             }
 
+            [BurstCompile]
             public static void RunImmediate(in CollisionWorld world, in CollisionWorld.Mask maskA, in CollisionWorld.Mask maskB, ref T processor, bool isThreadSafe)
             {
                 int jobIndex = 0;
@@ -729,6 +741,7 @@ namespace Latios.Psyshock
         }
     }
 
+    [BurstCompile]
     public partial struct FindPairsLayerLayerConfig<T> where T : unmanaged, IFindPairsProcessor
     {
         internal enum ScheduleMode
@@ -742,6 +755,7 @@ namespace Latios.Psyshock
             AllowEntityAliasing = 0x80,
         }
 
+        [BurstCompile]
         internal static class FindPairsInternal
         {
             [BurstCompile]
@@ -765,6 +779,7 @@ namespace Latios.Psyshock
                     modeAndTMarker = default;
                 }
 
+                [BurstCompile]
                 public void Run()
                 {
                     SetScheduleMode(ScheduleMode.Single);
@@ -885,6 +900,7 @@ namespace Latios.Psyshock
                 #endregion
 
                 #region Job Processing
+                [BurstCompile]
                 public void Execute(int index)
                 {
                     using var jobName      = modeAndTMarker.Auto();
@@ -1213,6 +1229,7 @@ namespace Latios.Psyshock
                 }
             }
 
+            [BurstCompile]
             public static void RunImmediate(in CollisionLayer layerA, in CollisionLayer layerB, ref T processor, bool isThreadSafe)
             {
                 int jobIndex         = 0;
@@ -1307,6 +1324,7 @@ namespace Latios.Psyshock
         }
     }
 
+    [BurstCompile]
     public partial struct FindPairsWorldWorldConfig<T> where T : unmanaged, IFindPairsProcessor
     {
         internal enum ScheduleMode
@@ -1319,6 +1337,7 @@ namespace Latios.Psyshock
             AllowEntityAliasing = 0x80,
         }
 
+        [BurstCompile]
         internal static class FindPairsInternal
         {
             [BurstCompile]
@@ -1350,11 +1369,13 @@ namespace Latios.Psyshock
 
                 public int cellCount => worldA.layer.cellCount;
 
+                [BurstCompile]
                 public void RunImmediate()
                 {
                     FindPairsInternal.RunImmediate(in worldA, in worldB, worldA.CreateMask(queryMaskA), worldB.CreateMask(queryMaskB), ref processor, false);
                 }
 
+                [BurstCompile]
                 public void Run()
                 {
                     SetScheduleMode(ScheduleMode.Single);
@@ -1449,6 +1470,7 @@ namespace Latios.Psyshock
                 #endregion
 
                 #region Job Processing
+                [BurstCompile]
                 public void Execute(int index)
                 {
                     using var jobName = modeAndTMarker.Auto();
@@ -1798,6 +1820,7 @@ namespace Latios.Psyshock
                 }
             }
 
+            [BurstCompile]
             public static void RunImmediate(in CollisionWorld worldA,
                                             in CollisionWorld worldB,
                                             in CollisionWorld.Mask maskA,
@@ -1910,6 +1933,7 @@ namespace Latios.Psyshock
         [ReadOnly] public CollisionLayer layerB;
         public UnsafeIndexedBlockList    cache;
 
+        [BurstCompile]
         public void Execute(int index)
         {
             var a      = layerA.GetBucketSlices(IndexStrategies.CrossBucketIndex(layerA.cellCount));
@@ -1918,11 +1942,13 @@ namespace Latios.Psyshock
             FindPairsSweepMethods.BipartiteSweepCrossCell(in layerA, in layerB, in a, in b, index, ref cacher, false, false);
         }
 
+        [BurstCompile]
         struct Cacher : IFindPairsProcessor
         {
             public UnsafeIndexedBlockList cache;
             public int                    writeIndex;
 
+            [BurstCompile]
             public void Execute(in FindPairsResult result)
             {
                 cache.Write(new int2(result.bodyIndexA, result.bodyIndexB), writeIndex);

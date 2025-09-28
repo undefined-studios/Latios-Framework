@@ -56,6 +56,7 @@ namespace Latios.Psyshock.Authoring.Systems
     [RequireMatchingQueriesForUpdate]
     [WorldSystemFilter(WorldSystemFilterFlags.BakingSystem)]
     [UpdateInGroup(typeof(SmartBlobberBakingGroup))]
+    [BurstCompile]
     public unsafe sealed partial class TriMeshColliderSmartBlobberSystem : SystemBase
     {
         EntityQuery m_query;
@@ -172,6 +173,7 @@ namespace Latios.Psyshock.Authoring.Systems
             public NativeArray<TriMeshBuilder>   builders;
             [ReadOnly] public Mesh.MeshDataArray meshes;
 
+            [BurstCompile]
             public void Execute(int i)
             {
                 var builder = builders[i];

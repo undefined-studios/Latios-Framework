@@ -10,6 +10,7 @@ using Unity.Mathematics;
 
 namespace Latios.Psyshock
 {
+    [BurstCompile]
     internal static class BuildCollisionLayerInternal
     {
         public struct ColliderAoSData
@@ -42,6 +43,7 @@ namespace Latios.Psyshock
             [ReadOnly] public BuildCollisionLayerTypeHandles                                   typeGroup;
             [ReadOnly, DeallocateOnJobCompletion] public NativeArray<int>                      firstEntityInChunkIndices;
 
+            [BurstCompile]
             public void Execute(in ArchetypeChunk chunk, int unfilteredChunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
                 var chunkEntities   = chunk.GetNativeArray(typeGroup.entity);
@@ -93,6 +95,7 @@ namespace Latios.Psyshock
             public NativeList<FilteredChunkCache> filteredChunkCache;
             int                                   countAccumulated;
 
+            [BurstCompile]
             public void Execute(in ArchetypeChunk chunk, int unfilteredChunkIndex, bool useEnabledMask, in v128 chunkEnabledMask)
             {
                 int filteredCount = math.select(chunk.Count, math.countbits(chunkEnabledMask.ULong0) + math.countbits(chunkEnabledMask.ULong1), useEnabledMask);
@@ -119,6 +122,7 @@ namespace Latios.Psyshock
             public NativeList<ColliderAoSData>                colliderAoS;
             [ReadOnly] public NativeArray<FilteredChunkCache> filteredChunkCache;
 
+            [BurstCompile]
             public void Execute()
             {
                 if (filteredChunkCache.Length == 0)
@@ -145,6 +149,7 @@ namespace Latios.Psyshock
             [ReadOnly] public BuildCollisionLayerTypeHandles                                   typeGroup;
             [ReadOnly] public NativeArray<FilteredChunkCache>                                  filteredChunkCache;
 
+            [BurstCompile]
             public void Execute(int chunkIndex)
             {
                 var filteredChunk    = filteredChunkCache[chunkIndex];
@@ -208,6 +213,7 @@ namespace Latios.Psyshock
 
             public bool aabbsAreProvided;
 
+            [BurstCompile]
             public void Execute()
             {
                 layer.ResizeUninitialized(bodies.Length);
@@ -235,12 +241,14 @@ namespace Latios.Psyshock
             [NoAlias] public NativeArray<Aabb>          aabbs;
             [NoAlias] public NativeArray<float2>        xMinMaxs;
 
+            [BurstCompile]
             public void Execute()
             {
                 for (int i = 0; i < colliderBodies.Length; i++)
                     Execute(i);
             }
 
+            [BurstCompile]
             public void Execute(int i)
             {
                 var aabb    = Physics.AabbFrom(colliderBodies[i].collider, colliderBodies[i].transform);
@@ -277,12 +285,14 @@ namespace Latios.Psyshock
             [ReadOnly] public NativeArray<Aabb>  aabbs;
             [NoAlias] public NativeArray<float2> xMinMaxs;
 
+            [BurstCompile]
             public void Execute()
             {
                 for (int i = 0; i < aabbs.Length; i++)
                     Execute(i);
             }
 
+            [BurstCompile]
             public void Execute(int i)
             {
                 ValidateOverrideAabbsAreRightLength(aabbs, layerIndices.Length);
@@ -318,6 +328,7 @@ namespace Latios.Psyshock
             public CollisionLayer             layer;
             [NoAlias] public NativeArray<int> layerIndices;
 
+            [BurstCompile]
             public void Execute()
             {
                 NativeArray<int> countsPerBucket = new NativeArray<int>(layer.bucketStartsAndCounts.Length, Allocator.Temp, NativeArrayOptions.ClearMemory);
@@ -352,12 +363,14 @@ namespace Latios.Psyshock
             [ReadOnly] public NativeArray<int>                                     layerIndices;
             [NoAlias, NativeDisableParallelForRestriction] public NativeArray<int> unsortedSrcIndices;
 
+            [BurstCompile]
             public void Execute()
             {
                 for (int i = 0; i < layerIndices.Length; i++)
                     Execute(i);
             }
 
+            [BurstCompile]
             public void Execute(int i)
             {
                 int spot                 = layerIndices[i];
@@ -375,12 +388,14 @@ namespace Latios.Psyshock
             [ReadOnly] public NativeArray<float2>                                               xMinMaxs;
             [ReadOnly] public NativeArray<int2>                                                 bucketStartAndCounts;
 
+            [BurstCompile]
             public void Execute()
             {
                 for (int i = 0; i < IndexStrategies.BucketCountWithoutNaNFromBucketCountWithNaN(bucketStartAndCounts.Length); i++)
                     Execute(i);
             }
 
+            [BurstCompile]
             public void Execute(int i)
             {
                 var startAndCount = bucketStartAndCounts[i];
@@ -403,12 +418,14 @@ namespace Latios.Psyshock
             [ReadOnly]
             public NativeArray<ColliderAoSData> colliderAoS;
 
+            [BurstCompile]
             public void Execute()
             {
                 for (int i = 0; i < layer.srcIndices.Length; i++)
                     Execute(i);
             }
 
+            [BurstCompile]
             public void Execute(int i)
             {
                 var aos         = colliderAoS[layer.srcIndices[i]];
@@ -435,12 +452,14 @@ namespace Latios.Psyshock
             [ReadOnly] public NativeArray<Aabb>         aabbs;
             [ReadOnly] public NativeArray<ColliderBody> bodies;
 
+            [BurstCompile]
             public void Execute()
             {
                 for (int i = 0; i < layer.srcIndices.Length; i++)
                     Execute(i);
             }
 
+            [BurstCompile]
             public void Execute(int i)
             {
                 int src            = layer.srcIndices[i];
@@ -460,6 +479,7 @@ namespace Latios.Psyshock
             [ReadOnly] public NativeArray<FilteredChunkCache> filteredChunkCache;
             public BuildCollisionLayerTypeHandles             handles;
 
+            [BurstCompile]
             public void Execute()
             {
                 BuildImmediate(ref layer, filteredChunkCache, in handles);
@@ -475,6 +495,7 @@ namespace Latios.Psyshock
 
             [ReadOnly] public NativeArray<ColliderBody> bodies;
 
+            [BurstCompile]
             public void Execute()
             {
                 BuildImmediate(ref layer, bodies);
@@ -491,6 +512,7 @@ namespace Latios.Psyshock
             [ReadOnly] public NativeArray<Aabb>         aabbs;
             [ReadOnly] public NativeArray<ColliderBody> bodies;
 
+            [BurstCompile]
             public void Execute()
             {
                 BuildImmediate(ref layer, bodies, aabbs);
